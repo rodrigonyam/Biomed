@@ -1,7 +1,6 @@
 // Biomedical Quiz Application
 class BiomedicalQuiz {
     constructor() {
-        console.log('BiomedicalQuiz constructor called');
         this.currentQuiz = null;
         this.currentQuestionIndex = 0;
         this.userAnswers = [];
@@ -16,48 +15,25 @@ class BiomedicalQuiz {
         this.leaderboard = this.loadLeaderboard();
         this.achievements = this.loadAchievements();
         
-        console.log('Initializing BiomedicalQuiz...');
         this.init();
     }
 
     init() {
-        console.log('Initializing BiomedicalQuiz components...');
         this.bindEvents();
-        console.log('Events bound');
         this.updateStatistics();
-        console.log('Statistics updated');
         this.checkFirstTimeUser();
-        console.log('First time user checked');
         this.initializeAchievements();
-        console.log('Achievements initialized');
         this.updateLeaderboard();
-        console.log('Leaderboard updated');
         this.updateProfile();
-        console.log('Profile updated');
-        console.log('BiomedicalQuiz initialization complete');
     }
 
     bindEvents() {
         // Navigation events
-        const homeBtn = document.getElementById('homeBtn');
-        const statsBtn = document.getElementById('statsBtn');
-        const leaderboardBtn = document.getElementById('leaderboardBtn');
-        const profileBtn = document.getElementById('profileBtn');
-        const aboutBtn = document.getElementById('aboutBtn');
-        
-        console.log('Navigation elements found:', {
-            homeBtn: !!homeBtn,
-            statsBtn: !!statsBtn,
-            leaderboardBtn: !!leaderboardBtn,
-            profileBtn: !!profileBtn,
-            aboutBtn: !!aboutBtn
-        });
-        
-        if (homeBtn) homeBtn.addEventListener('click', () => { console.log('Home clicked'); this.showScreen('welcome'); });
-        if (statsBtn) statsBtn.addEventListener('click', () => { console.log('Stats clicked'); this.showScreen('stats'); });
-        if (leaderboardBtn) leaderboardBtn.addEventListener('click', () => { console.log('Leaderboard clicked'); this.showScreen('leaderboard'); });
-        if (profileBtn) profileBtn.addEventListener('click', () => { console.log('Profile clicked'); this.showScreen('profile'); });
-        if (aboutBtn) aboutBtn.addEventListener('click', () => { console.log('About clicked'); this.showScreen('about'); });
+        document.getElementById('homeBtn').addEventListener('click', () => this.showScreen('welcome'));
+        document.getElementById('statsBtn').addEventListener('click', () => this.showScreen('stats'));
+        document.getElementById('leaderboardBtn').addEventListener('click', () => this.showScreen('leaderboard'));
+        document.getElementById('profileBtn').addEventListener('click', () => this.showScreen('profile'));
+        document.getElementById('aboutBtn').addEventListener('click', () => this.showScreen('about'));
 
         // Profile events
         document.getElementById('profileForm').addEventListener('submit', (e) => this.createProfile(e));
@@ -68,20 +44,18 @@ class BiomedicalQuiz {
         document.getElementById('leaderboardFilter').addEventListener('change', () => this.updateLeaderboard());
         document.getElementById('categoryFilter').addEventListener('change', () => this.updateLeaderboard());
 
-        // Category selection events (info display only)
+        // Category selection events (start quiz directly)
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const category = e.currentTarget.dataset.category;
-                this.showCategoryInfo(category);
+                this.startQuiz(category);
             });
         });
 
         // Start button events
         document.querySelectorAll('.start-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                console.log('Start button clicked');
                 const category = e.currentTarget.dataset.category;
-                console.log('Category:', category);
                 this.startQuiz(category);
             });
         });
@@ -108,27 +82,13 @@ class BiomedicalQuiz {
     }
 
     showScreen(screenName) {
-        console.log('showScreen called with:', screenName);
-        try {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
+        // Hide all screens
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
 
-            // Show target screen
-            const targetScreen = document.getElementById(screenName + 'Screen');
-            console.log('Target screen element:', targetScreen);
-            if (targetScreen) {
-                targetScreen.classList.add('active');
-                console.log('Screen activated:', screenName + 'Screen');
-            } else {
-                console.error('Screen element not found:', screenName + 'Screen');
-                return false;
-            }
-        } catch (error) {
-            console.error('Error in showScreen:', error);
-            return false;
-        }
+        // Show target screen
+        document.getElementById(screenName + 'Screen').classList.add('active');
 
         // Update navigation
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -278,37 +238,26 @@ class BiomedicalQuiz {
     }
 
     startQuiz(category) {
-        console.log('startQuiz called with category:', category);
         this.reviewMode = false;
         this.currentQuestionIndex = 0;
         this.userAnswers = [];
         this.startTime = new Date();
 
         // Get questions based on category
-        try {
-            if (category === 'mixed') {
-                console.log('Loading mixed questions');
-                this.currentQuiz = {
-                    category: 'mixed',
-                    name: 'Mixed Topics Quiz',
-                    questions: getBalancedMixedQuestions(10),
-                    icon: 'fas fa-random'
-                };
-            } else {
-                console.log('Loading questions for category:', category);
-                console.log('CategoryInfo available:', typeof categoryInfo !== 'undefined');
-                console.log('getRandomQuestions available:', typeof getRandomQuestions !== 'undefined');
-                this.currentQuiz = {
-                    category: category,
-                    name: categoryInfo[category].name,
-                    questions: getRandomQuestions(category, 10),
-                    icon: categoryInfo[category].icon
-                };
-            }
-            console.log('Quiz loaded:', this.currentQuiz);
-        } catch (error) {
-            console.error('Error loading quiz:', error);
-            return;
+        if (category === 'mixed') {
+            this.currentQuiz = {
+                category: 'mixed',
+                name: 'Mixed Topics Quiz',
+                questions: getBalancedMixedQuestions(10),
+                icon: 'fas fa-random'
+            };
+        } else {
+            this.currentQuiz = {
+                category: category,
+                name: categoryInfo[category].name,
+                questions: getRandomQuestions(category, 10),
+                icon: categoryInfo[category].icon
+            };
         }
 
         // Initialize user answers and question states arrays
