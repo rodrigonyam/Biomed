@@ -378,12 +378,17 @@ const categoryInfo = {
         icon: "fas fa-flask",
         color: "#3498db"
     },
+    // Category information with descriptions and icons
+const categoryInfo = {
+    // ... other categories ...
     cellbiology: {
         name: "Cell Biology",
         description: "Structure and function of cells",
-        icon: "fas fa-cell",
+        icon: "fas fa-microscope", // Changed from fa-cell to fa-microscope
         color: "#2ecc71"
     },
+    // ... other categories ...
+};
     genetics: {
         name: "Genetics",
         description: "Heredity and genetic variation",
