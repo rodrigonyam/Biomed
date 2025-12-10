@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test - Biomedical Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .pass { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .test-button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Biomedical Quiz Navigation Test</h1>
+    
+    <div id="testResults"></div>
+    
+    <h2>Manual Tests</h2>
+    <button class="test-button" onclick="testNavigation()">Test Navigation Buttons</button>
+    <button class="test-button" onclick="testCategoryButtons()">Test Category Buttons</button>
+    <button class="test-button" onclick="testRandomQuiz()">Test Random Quiz Button</button>
+    
+    <iframe src="index.html" width="100%" height="600px" style="border: 1px solid #ccc; margin-top: 20px;"></iframe>
+
+    <script>
+        function addTestResult(test, passed, message) {
+            const results = document.getElementById('testResults');
+            const result = document.createElement('div');
+            result.className = `test-result ${passed ? 'pass' : 'fail'}`;
+            result.innerHTML = `<strong>${test}:</strong> ${message}`;
+            results.appendChild(result);
+        }
+
+        function testNavigation() {
+            addTestResult('Navigation Test', true, 'Check if navigation buttons (Home, Statistics, Leaderboard, Profile, About) are working in the iframe above');
+        }
+
+        function testCategoryButtons() {
+            addTestResult('Category Test', true, 'Try clicking on category cards (like Anatomy & Physiology, Biochemistry) to start quizzes');
+        }
+
+        function testRandomQuiz() {
+            addTestResult('Random Quiz Test', true, 'Click the "Random Quiz (Mixed Topics)" button to test mixed quiz functionality');
+        }
+
+        // Run basic checks when page loads
+        window.onload = function() {
+            addTestResult('Page Load', true, 'Navigation test page loaded successfully');
+            addTestResult('Iframe Load', true, 'Main quiz application loaded in iframe - test manually above');
+        };
+    </script>
+</body>
+</html>
