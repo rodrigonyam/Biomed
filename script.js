@@ -892,3 +892,7 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+// --- TEST CODE (Paste this at the bottom to verify) ---
+console.log("Testing Anatomy Questions:", getRandomQuestions('anatomy', 2));
+console.log("Testing Mixed Questions:", getMixedQuestions(3));
+console.log("Testing Balanced Questions:", getBalancedMixedQuestions(5));

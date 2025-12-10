@@ -515,3 +515,14 @@ function getBalancedMixedQuestions(count = 10) {
     // Final shuffle
     return selectedQuestions.sort(() => 0.5 - Math.random());
 }
+
+// Export for Node.js / React / Vue
+module.exports = {
+    questionDatabase,
+    categoryInfo,
+    getRandomQuestions,
+    getMixedQuestions,
+    getBalancedMixedQuestions
+};
+// OR if using ES6 Modules (React/Vite):
+// export { questionDatabase, categoryInfo, getRandomQuestions, ... };
